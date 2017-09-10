@@ -39,7 +39,7 @@ int main(int argc,char **argv)
 {
 TRANSDETAILS *transdets;
 pthread_t *thread_id=(pthread_t*)malloc(sizeof(pthread_t));
-int *trans_status;
+int *trans_status=(int*)malloc(sizeof(int));
 
 transdets=(TRANSDETAILS*)malloc(sizeof(TRANSDETAILS));
 puts("Enter source account number:");
