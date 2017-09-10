@@ -38,7 +38,7 @@ return (void*)return_val;
 int main(int argc,char **argv)
 {
 TRANSDETAILS *transdets;
-pthread_t *thread_id;
+pthread_t *thread_id=(pthread_t*)malloc(sizeof(pthread_t));
 int *trans_status;
 
 transdets=(TRANSDETAILS*)malloc(sizeof(TRANSDETAILS));
