@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<pthread.h>
+#include<sys/types.h>
 
 typedef struct args //structure to be used to form arguments for each thread
 {
@@ -31,6 +32,12 @@ ARG *arg_1,*arg_2;
 
 arg_1=(ARG*)malloc(sizeof(ARG));
 arg_2=(ARG*)malloc(sizeof(ARG));
+
+arg_1->ch='x';
+arg_2->ch='o';
+
+arg_1->num=10000;
+arg_2->num=20000;
 
 pthread_create(thread_1,NULL,&print_chars,arg_1);
 pthread_create(thread_2,NULL,&print_chars,arg_2);
