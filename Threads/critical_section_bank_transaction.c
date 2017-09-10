@@ -63,7 +63,7 @@ puts("Transaction thread is going on...");
 
 pthread_join(*thread_id,(void*)trans_status);
 
-if(trans_status==0);
+if(*trans_status==0);
 else
 {
 puts("Source acc balance is not sufficient!");
