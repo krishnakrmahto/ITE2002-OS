@@ -4,10 +4,11 @@
 void *thread_func(void *arg)
 {
 int *i=(int*)arg;
+printf("initial: %d\n",*i);
 
-*i++;
+(*i)++;
 
-printf("%d",*i);
+printf("after: %d\n",*i);
 
 return NULL;
 }
@@ -20,7 +21,7 @@ pthread_create(&thread1_id,NULL,thread_func,(void*)&arg);
 pthread_create(&thread2_id,NULL,thread_func,(void*)&arg);
 
 pthread_join(thread1_id,NULL);
-pthread_join(thread_2_id,NULL);
+pthread_join(thread2_id,NULL);
 
 return 0;
 }
