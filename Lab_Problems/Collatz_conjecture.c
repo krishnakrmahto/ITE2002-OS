@@ -8,31 +8,31 @@
 
 int main(int argc,char** argv)
 {
-if(*(argv+0)[0]=='-')
+if(*(argv+1)[0]=='-')
 {
 puts("Please enter a positive number and come back.\nExiting...");
 exit(1);
 }
-int count=0,i=0,num=0;
+int count=0,i=0,num=0,n;
 
-if(*(argv+0)[0]!='+')
+if(*(argv+1)[0]!='+')
 {
-count=strlen(*(argv+0));
+count=strlen(*(argv+1));
 
 for(i=0;i<count;i++)
-num+=*(argv+0)[count-i-1]*pow(10,i);
+num+=((*(argv+1)[count-i-1])-48)*pow(10,i);
 }
 
 else
 {
-count=strlen(*(argv+0))-;
+count=strlen(*(argv+1));
 
 for(i=0;i<count-1;i++)
-num+=*(argv+0)[count-i-1]*pow(10,i);
+num+=((*(argv+1)[count-i-1])-48)*pow(10,i);
 }
 /* it is important to initialise child_status because it's address will be used in wait() in parent process. Until un-initialised, it will have some garbage value. */
 
-
+n=num;
 int child_status=0;
 pid_t pid=fork();
 
