@@ -6,13 +6,15 @@
 void *factorial_thread(void *num_recv)
 {
 int num=*((int*)num_recv);
-static int *fact;
+int *fact;
 int i;
 *fact=1;
 for(i=num;i>1;i--)
 (*(fact))*=i;
 
-return (void*)fact;
+printf("The factorial is: %d\n",*fact);
+
+return NULL;
 }
 
 int main(int argc,char **argv)
@@ -24,10 +26,8 @@ pthread_t thread_id;
 puts("Enter any number: ");
 scanf("%d",&n);
 
-pthread_create(&thread_id,NULL,factorial_thread,(void*)&n);
-pthread_join(thread_id,(void*)r);
-
-printf("The factorial of %d is %d: ",n,*(int*)r);
+pthread_create(&thread_id,NULL,&factorial_thread,(void*)&n);
+pthread_join(thread_id,NULL);
 
 return 0;
 }
