@@ -13,7 +13,10 @@ puts("Please enter a positive number and come back.\nExiting...");
 exit(1);
 }
 
-int child_status;
+/* it is important to initialise child_status because it's address will be used in wait() in parent process. Until un-initialised, it will have some garbage value. */
+
+
+int child_status=0;
 pid_t pid=fork();
 
 if(pid==0) //child process
