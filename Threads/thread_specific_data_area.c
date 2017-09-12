@@ -24,7 +24,7 @@ pthread_key_t* thread_log_key=(pthread_key_t*)thread_log_key_received;
 FILE *fp;
 char *log_file_name;
 
-sprintf(log_file_name,"thread%d",(int)pthread_self());
+sprintf(log_file_name,"thread%d.log",(int)pthread_self());
 fp=fopen(log_file_name,"w");
 /* now what I would like to do is, set this file-pointer fp as a specific value for any thread that runs this function, so that each thread will have its own copy of log file pointer. This will enable us to store log file for each thread separately. */
 
@@ -47,8 +47,8 @@ int main()
 int i;
 pthread_t thread_id[5];
 
-/* under this key, log of each thread will be saved which will be exclusively and independently*/
-pthread_key_t thread_log_key;
+/* under this key, log of each thread will be saved which will be exclusively and independently */
+pthread_key_t thread_log_key=*((pthread_key_t*)malloc(sizeof(pthread_key_t)));
 
 pthread_key_create(&thread_log_key,clean_up_func); // clean up function will close the FILE opened
 
