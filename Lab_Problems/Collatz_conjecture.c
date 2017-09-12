@@ -3,16 +3,33 @@
 #include<sys/types.h>
 #include<stdlib.h>
 #include<sys/wait.h>
+#include<string.h>
+#include<math.h>
 
-int main(int argc,int **argv)
+int main(int argc,char** argv)
 {
-int n=argc;
-if(n<0)
+if(*(argv+0)[0]=='-')
 {
 puts("Please enter a positive number and come back.\nExiting...");
 exit(1);
 }
+int count=0,i=0,num=0;
 
+if(*(argv+0)[0]!='+')
+{
+count=strlen(*(argv+0));
+
+for(i=0;i<count;i++)
+num+=*(argv+0)[count-i-1]*pow(10,i);
+}
+
+else
+{
+count=strlen(*(argv+0))-;
+
+for(i=0;i<count-1;i++)
+num+=*(argv+0)[count-i-1]*pow(10,i);
+}
 /* it is important to initialise child_status because it's address will be used in wait() in parent process. Until un-initialised, it will have some garbage value. */
 
 
