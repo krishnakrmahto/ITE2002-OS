@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<unistd.h>
 #include<sys/types.h>
 #include<pthread.h>
@@ -6,7 +7,7 @@
 void *factorial_thread(void *num_recv)
 {
 int num=*((int*)num_recv);
-int *fact;
+int *fact=(int*)malloc(sizeof(int));
 int i;
 *fact=1;
 for(i=num;i>1;i--)
