@@ -19,18 +19,14 @@ JOB *head=NULL,*tail=NULL,*new_job,*traverse;
 
 void *job_checking(void *arg)
 {
-if(traverse==NULL)
+for(;traverse!=NULL;traverse=traverse->next)
 {
-printf("All the jobs are done. My thread ID is: %d",(int)pthread_self());
-exit(0);
-}
 pthread_mutex_lock(&mutex);
 printf("Job %d got checked by thread id: %d.\n",traverse->job,(int)pthread_self());
-traverse=traverse->next;
 pthread_mutex_unlock(&mutex);
-
 }
-
+pthread_mutex_unlock(&mutex);
+}
 
 void create_job_queue(JOB* head)
 {
