@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<pthread.h>
 #include<stdlib.h>
-
+#include<malloc.h>
 typedef struct jobnode
 {
 int job;
@@ -23,11 +23,12 @@ if(traverse==NULL)
 {
 printf("All the jobs are done. My thread ID is: %d",(int)pthread_self());
 exit(0);
+}
 pthread_mutex_lock(&mutex);
 printf("Job %d got checked by thread id: %d.\n",traverse->job,(int)pthread_self());
 traverse=traverse->next;
 pthread_mutex_unlock(&mutex);
-}
+
 }
 
 
