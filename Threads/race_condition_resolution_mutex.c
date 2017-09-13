@@ -12,7 +12,7 @@ JOB *head=NULL,*tail=NULL,*new_job,*traverse;
 
 /* Initialising mutex variable globally, out of the thread function because if it were defined inside the thread function then each thread, whenever enters the thread function, would initialise the mutex lock, repeatedly changing the value of mutex- undesirable. It is also not being defined inside main, because then it would be local to main and we would have to pass it to the thread function thereafter- clumsy. */
 
-pthread_mutex_t mutex;
+pthread_mutex_t mutex=(pthread_mutex_t*)malloc(sizeof(pthread_mutex_t));
 pthread_mutex_init(&mutex,NULL); //second argument is supposed to be a pointer to a mutex attribute object, passing NULL means default attributes are employed
 /* alternative definition of mutex: pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER */
 
@@ -23,7 +23,7 @@ if(traverse==NULL)
 printf("All the jobs are done. My thread ID is: %d",(int)pthread_self());
 exit(0);
 pthread_mutex_lock(&mutex);
-printf("Job %d got checked by thread id: %d.\n",traverse->job,(int)pthrad_self());
+printf("Job %d got checked by thread id: %d.\n",traverse->job,(int)pthread_self());
 traverse=traverse->next;
 pthread_mutex_unlock(&mutex);
 }
@@ -32,6 +32,8 @@ pthread_mutex_unlock(&mutex);
 
 void create_job_queue(JOB* head)
 {
+int i,j;
+
 head=(JOB*)malloc(sizeof(JOB));
 head->job=1;
 tail=head;
@@ -63,6 +65,6 @@ pthread_create(&thread_id[i],NULL,job_checking,NULL);
 for(i=0;i<4;i++)
 pthread_join(thread_id[i],NULL);
 
-return0;
+return 0;
 
 }
