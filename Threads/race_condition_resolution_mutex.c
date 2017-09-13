@@ -12,9 +12,10 @@ JOB *head=NULL,*tail=NULL,*new_job,*traverse;
 
 /* Initialising mutex variable globally, out of the thread function because if it were defined inside the thread function then each thread, whenever enters the thread function, would initialise the mutex lock, repeatedly changing the value of mutex- undesirable. It is also not being defined inside main, because then it would be local to main and we would have to pass it to the thread function thereafter- clumsy. */
 
-pthread_mutex_t mutex=(pthread_mutex_t*)malloc(sizeof(pthread_mutex_t));
-pthread_mutex_init(&mutex,NULL); //second argument is supposed to be a pointer to a mutex attribute object, passing NULL means default attributes are employed
-/* alternative definition of mutex: pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER */
+
+//pthread_mutex_init(&mutex,NULL); //second argument is supposed to be a pointer to a mutex attribute object, passing NULL means default attributes are employed
+/* alternative definition of mutex:*/
+ pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER;
 
 void *job_checking(void *arg)
 {
