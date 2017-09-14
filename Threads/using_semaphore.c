@@ -3,6 +3,7 @@
 #include<pthread.h>
 #include<stdlib.h>
 #include<unistd.h>
+
 #define NUM_OF_JOBS 10
 
 typedef struct jobnode
@@ -48,31 +49,35 @@ void create_job_queue(JOB* head)
 
 int i=NUM_OF_JOBS;
 
-for(;i>0;i--)
-{
 if(head==NULL)
 {
+
+//if head is NULL, make a head node
 new_job=(JOB*)malloc(sizeof(JOB));
-new_job->job=i++;
-head=tail=new_job;
+new_job->job=i--;
+head=new_job;
+tail=head;
 tail->next=NULL;
 
-//whenever a new job is available, 'post' it to sem_t var
-
+//let the sem_t know that a new job is available
 sem_post(&semaphore);
-
-return;
 }
 
+for(;i>0;i--)
+{
+
 new_job=(JOB*)malloc(sizeof(JOB));
-new_job->job=i++;
+new_job->job=i;
+tail->next=new_job;
 tail=new_job;
 tail->next=NULL;
 
 // post job availability to the semaphore.
 sem_post(&semaphore);
+
 }
 }
+
 int main(int argc,char **argv)
 {
 
