@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<pthread.h>
 #include<stdlib.h>
-#include<malloc.h>
+#include<unistd.h>
 typedef struct jobnode
 {
 int job;
@@ -19,13 +19,15 @@ JOB *head=NULL,*tail=NULL,*new_job,*traverse;
 
 void *job_checking(void *arg)
 {
-for(;traverse!=NULL;traverse=traverse->next)
+for(;traverse!=NULL;)
 {
 pthread_mutex_lock(&mutex);
 printf("Job %d got checked by thread id: %d.\n",traverse->job,(int)pthread_self());
 pthread_mutex_unlock(&mutex);
+traverse=traverse->next;
+sleep(2); //sleeping so as to give opportunity to other threads also, unlike in the previous version
 }
-pthread_mutex_unlock(&mutex);
+//pthread_mutex_unlock(&mutex);
 }
 
 void create_job_queue(JOB* head)
