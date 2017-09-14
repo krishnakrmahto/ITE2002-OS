@@ -4,6 +4,7 @@
 #include<stdlib.h>
 #include<unistd.h>
 #define NUM_OF_JOBS 10
+
 typedef struct jobnode
 {
 int job;
@@ -19,7 +20,7 @@ pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER;
 /* globally defining semaphore. why not in the thread function or in main? because defining in the process thread would cause semaphore to be initialised by every thread that starts executing it, that's not what we would like to happen to semaphore. why not in main? because then we would have to pass it to the thread function which we have just avoided by defining sem_t var globally. */
 
 sem_t semaphore;
-sem_init(&semaphore,0,0); //sem_t var should be initialised with 0
+//sem_init(&semaphore,0,0); //sem_t var should be initialised with 0
 int sem_value=0;
 
 
@@ -74,6 +75,8 @@ sem_post(&semaphore);
 }
 int main(int argc,char **argv)
 {
+
+sem_init(&semaphore,0,0);
 int i;
 create_job_queue(head);
 pthread_t thread_id[4],last_thread_id;
