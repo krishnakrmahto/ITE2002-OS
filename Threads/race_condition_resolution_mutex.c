@@ -19,9 +19,10 @@ JOB *head=NULL,*tail=NULL,*new_job,*traverse;
 
 void *job_checking(void *arg)
 {
+pthread_mutex_lock(&mutex);
 for(;traverse!=NULL;)
 {
-pthread_mutex_lock(&mutex);
+//pthread_mutex_lock(&mutex);
 printf("Job %d got checked by thread id: %d.\n",traverse->job,(int)pthread_self());
 pthread_mutex_unlock(&mutex);
 traverse=traverse->next;
