@@ -7,6 +7,7 @@
 #include<unistd.h> // for write, close system calls
 #include<sys/stat.h> // for open system call
 #include<stdlib.h>
+#include<string.h>
 
 void open_file(char *filepath,int *fd_ptr,mode_t mode)
 {
@@ -33,7 +34,7 @@ time_t time_sec=time(NULL); // if instead of NULL, some other time_t* var was pa
 
 time_buffer=asctime(localtime(&time_sec));
 
-write(fd,time_buffer,sizeof(time_buffer));
+write(fd,time_buffer,strlen(time_buffer));
 
 close(fd);
 
