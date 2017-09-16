@@ -6,10 +6,11 @@
 #include<fcntl.h> // for open system call
 #include<unistd.h> // for write, close system calls
 #include<sys/stat.h> // for open system call
+#include<stdlib.h>
 
 void open_file(char *filepath,int *fd_ptr,mode_t mode)
 {
-*fd_ptr=open(filename,O_WRONLY|O_APPEND,mode);
+*fd_ptr=open(filepath,O_WRONLY|O_APPEND,mode);
 
 if (*fd_ptr==-1) // file opening has failed
 {
@@ -20,7 +21,7 @@ exit(0);
 
 int main(int argc,char **argv)
 {
-char *filepath=*(argv[1]);
+char *filepath=(argv[1]);
 int fd=0;
 mode_t mode=S_IWGRP | S_IRGRP | S_IRUSR | S_IWUSR | S_IROTH | S_IWOTH;
 
@@ -30,7 +31,7 @@ char *time_buffer;
 
 time_t time_sec=time(NULL); // if instead of NULL, some other time_t* var was passed then the returned secs would be saved there also.
 
-time_buffer=asctime(localtime(time_sec));
+time_buffer=asctime(localtime(&time_sec));
 
 write(fd,time_buffer,sizeof(time_buffer));
 
