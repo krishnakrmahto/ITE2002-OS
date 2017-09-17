@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<sys/shm.h> //for shmget
 #include<unistd.h> //for sleep
+#include<sys/stat.h>
 
 int main(int argc, char **argv)
 {
@@ -25,16 +26,17 @@ exit(1);
 
 addr_attach_shm=shmat(shmid,NULL,0); //by default a ptr is an unsigned int type, so return value need not be type casted
 
-if(addr_att_shm<0)
+if(addr_attach_shm<0)
 {
 perror("shmat");
 exit(2);
 }
 
 char *addr_space_ptr=(char*)addr_attach_shm;
+char ch='a';
 
 for(i=0;i<26;i++)
-*(addr_space_ptr+i)=a++;
+*(addr_space_ptr+i)=ch++;
 
 *addr_space_ptr='\0';
 
