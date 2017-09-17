@@ -3,17 +3,20 @@
 #include<sys/shm.h> //for shmget
 #include<unistd.h> //for sleep
 #include<sys/stat.h>
+#include<sys/types.h>
 
 int main(int argc, char **argv)
 {
+
+key_t key=5678;
 int i;
 unsigned int *addr_attach_shm; //ptr to be used to receive the process address space where the shared memory is attached. Any type of pointer can be used and accordingly the return value of shmat can be typecasted
 
 size_t page_size=getpagesize();
 
-mode_t mode=S_IWUSR | S_IRUSR | S_IROTH; // permissions list for segment
+mode_t mode=S_IWUSR | S_IRUSR | S_IROTH | IPC_CREAT; // permissions list for segment
 
-int shmid=shmget(5588,26,mode);
+int shmid=shmget(key,4096,mode);
 
 if(shmid<0) // if shmget() fails
 {
@@ -36,13 +39,15 @@ char *addr_space_ptr=(char*)addr_attach_shm;
 char ch='a';
 
 for(i=0;i<26;i++)
+{
 *(addr_space_ptr+i)=ch++;
-
+//printf("%c",*(addr_space_ptr+i));
+}
 *addr_space_ptr='\0';
 
 /* now this process should wait for the other process to read the shared memory. */
 
-sleep(2);
+sleep(10);
 
 shmdt(addr_attach_shm); // afte the job is done, detach from the shared mem
 

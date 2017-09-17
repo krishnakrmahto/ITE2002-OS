@@ -24,6 +24,8 @@ int main(int argc,char **argv)
 {
 char *filepath=(argv[1]);
 int fd=0;
+
+/*specifying read,write and such permissions to diff sets of users, for a potential new file; in case a new file is to be created.*/
 mode_t mode=S_IWGRP | S_IRGRP | S_IRUSR | S_IWUSR | S_IROTH | S_IWOTH;
 
 open_file(filepath,&fd,mode);
