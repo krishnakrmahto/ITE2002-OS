@@ -1,8 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<sys/shm.h>
-#include<sys/types.h>
+#include<sys/stat.h>
 #include<unistd.h>
+#include<ctype.h>
 
 int main(int argc, char** argv)
 {
@@ -25,7 +26,7 @@ attach_to_address_space=shmat(shmid,NULL,SHM_RDONLY); //attach the shm for read 
 char *char_attach_to_address_space=(char*)attach_to_address_space;
 
 for(i=0;i<26;i++)
-printf("%s",strupr(attach_to_address_space));
+printf("%c",toupper(*attach_to_address_space++));
 
 shmdt(attach_to_address_space);
 
