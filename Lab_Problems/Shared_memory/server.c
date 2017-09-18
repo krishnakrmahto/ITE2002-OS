@@ -35,16 +35,17 @@ perror("shmat");
 exit(2);
 }
 
-char *addr_space_ptr=(char*)addr_attach_shm;
+char *char_ptr_addr_space=(char*)addr_attach_shm;
 char ch='a';
 
 for(i=0;i<26;i++)
-{
-*(addr_space_ptr+i)=ch++;
-//printf("%c",*(addr_space_ptr+i));
-}
-*addr_space_ptr='\0';
+*(char_ptr_addr_space+i)=ch++;
 
+*(char_ptr_addr_space+i)='\0';
+
+puts("Server wrote: ");
+for(ch=*char_ptr_addr_space,i=0;ch!='\0';++i,ch=*(char_ptr_addr_space+i))
+printf("%c ",ch);
 /* now this process should wait for the other process to read the shared memory. */
 
 sleep(10);

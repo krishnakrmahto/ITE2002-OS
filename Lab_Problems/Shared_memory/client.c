@@ -26,12 +26,12 @@ exit(1);
 attach_to_address_space=shmat(shmid,NULL,0); //attach the shm for read only
 
 char *char_attach_to_address_space=(char*)attach_to_address_space;
+
+puts("Client reads and processes:");
 for(i=0;i<26;i++)
-printf("%c",toupper(*(char_attach_to_address_space+i)));
+printf("%c ",toupper(*(char_attach_to_address_space+i)));
 
 shmdt(attach_to_address_space);
-
-shmctl(shmid,IPC_RMID,NULL);
 
 return 0;
 
