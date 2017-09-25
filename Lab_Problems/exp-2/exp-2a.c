@@ -17,7 +17,7 @@ if(pid==0) // if child process
 /* child process will ask a brand new process to replace itself. */
 printf("I am child process with pid %d and ppid %d, I am going to replace myself with helloExec.\n\n",(int)getpid(),(int)getppid());
 
-char *args[]={"./helloExec","~/OS_Programs",NULL}; //an argument for the new process;  as a convention first arg is name of the file to be executed
+char *args[]={"./helloExec","~/VBShare",NULL}; //an argument for the new process;  as a convention first arg is name of the file to be executed
 
 execvp("./helloExec",args); //passing arg to the new process- helloExec
 fprintf(stderr,"execvp failed!\n\n"); //no conditional block is required for fprintf as execvp returns only if it fails
@@ -28,7 +28,7 @@ else
 {
 
 printf("I am parent with pid %d, waiting for child with pid %d to return.\n",(int)getpid(),(int)pid);
-
+wait(&child_status);
 }
 return 0;
 }

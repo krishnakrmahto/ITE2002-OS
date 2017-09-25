@@ -46,6 +46,7 @@ for(i=0;i<26;i++)
 puts("Server wrote: ");
 for(ch=*char_ptr_addr_space,i=0;ch!='\0';++i,ch=*(char_ptr_addr_space+i))
 printf("%c ",ch);
+puts("");
 /* now this process should wait for the other process to read the shared memory. */
 
 sleep(10);

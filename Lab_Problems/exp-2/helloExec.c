@@ -17,15 +17,19 @@ printf("Number of parameters: %d\n",argc);
 printf("My pid: %d\n",(int)getpid());
 
 for(i=0;i<argc;i++)
-printf("My arguments: %s",argv[i]);
+printf("My arguments: %s\n",argv[i]);
 
 DIR* dir_handle=opendir(argv[1]);
 struct dirent *dir_entry;
 
-//do
-//{
+puts("Directory entries:");
+do
+{
 dir_entry=readdir(dir_handle);
 printf("%s\n",dir_entry->d_name);
+}while(readdir(dir_handle)!=NULL);
+
+closedir(dir_handle);
 
 return 0;
 }
