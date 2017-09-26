@@ -8,7 +8,7 @@ pthread_key_t phil_num;
 
 void *philosopher_func(void *arg)
 {
-printf("%d\n",*((int*)arg));
+//printf("%d\n",*((int*)arg));
 pthread_setspecific(phil_num,arg);
 
 printf("Philosopher %d is thinking.\n",*(int*)pthread_getspecific(phil_num));
@@ -34,20 +34,22 @@ int main(int argc,char **argv)
 pthread_t thread_philosopher[5];
 pthread_key_create(&phil_num,NULL);
 
-int i;
-for(i=0;i<5;i++)
-pthread_mutex_init(&mutex_fork[i],NULL);
+int* i=(int*)malloc(sizeof(int));
+int j;
 
-for(i=0;i<5;i++)
+for(j=0;j<5;j++)
+pthread_mutex_init(&mutex_fork[j],NULL);
+
+for(j=0,*i=j;j<5;i++,j++,*i=j)
 {
 //printf("%d\n",i);
-pthread_create(&thread_philosopher[i],NULL,philosopher_func,(void*)&i);
+pthread_create(&thread_philosopher[j],NULL,philosopher_func,(void*)i);
 }
-for(i=0;i<5;i++)
-pthread_mutex_destroy(&mutex_fork[i]);// freeing the space occupied by mutex
+for(j=0;j<5;j++)
+pthread_mutex_destroy(&mutex_fork[j]);// freeing the space occupied by mutex
 
-for(i=0;i<5;i++)
-pthread_join(thread_philosopher[i],NULL);
+for(j=0;j<5;j++)
+pthread_join(thread_philosopher[j],NULL);
 
 return 0;
 }
