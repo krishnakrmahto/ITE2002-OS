@@ -30,7 +30,7 @@ return;
 
 printf("Patient number %d has been sent for consultation.\n",send);
 sleep(patients_array[send]);
-printf("Patient number %d has finished.\n\n",send--);
+printf("Patient number %d has finished.\n\n",send++);
 
 }
 
