@@ -34,7 +34,7 @@ static int send=0;
 if(send==(((*num_patients)+1)%MAX))
 {
 puts("No more patients!");
-return;
+return MAX;
 }
 
 printf("Patient number %d has been sent for consultation.\n",send);
@@ -48,12 +48,12 @@ void new_appointment(int *num_patients,int send)
 {
 int consult_time=0,i,j;
 puts("Enter the consultation time: ");
-scanf("%d",&consult_ime);
+scanf("%d",&consult_time);
 
-for(i=send;i<=*num_patients;i=(i+1)%MAX);
+for(i=send;i<=*num_patients;i=(i+1)%MAX)
 {
 if(patients_array[i]>consult_time)
-continue;// compare with the 
+continue;// compare with the next element in the array
 
 else
 {
@@ -63,7 +63,8 @@ patients_array[j]=patients_array[j-1];
 
 patients_array[i]=consult_time;
 *num_patients=(*num_patients+1)%MAX;
-
+}
+}
 }
 
 void show_queue(int num_appointments)
