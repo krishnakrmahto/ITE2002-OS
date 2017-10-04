@@ -46,9 +46,10 @@ return send;// return the patient number which will be sent
 
 void new_appointment(int *num_patients,int send)
 {
-int consult_time=0,i,j;
+float consult_time=0;
+int i,j;
 puts("Enter the consultation time: ");
-scanf("%d",&consult_time);
+scanf("%f",&consult_time);
 
 for(i=send;i<=*num_patients;i=(i+1)%MAX)
 {
@@ -67,11 +68,11 @@ patients_array[i]=consult_time;
 }
 }
 
-void show_queue(int num_appointments)
+void show_queue(int num_appointments,int send)
 {
 int i;
-for(i=0;i<=num_appointments;i=(i+1)%MAX)
-printf("Patient %d:\nConsultation time: %f\n\n",i,patients_array[i]);
+for(i=send;i<=num_appointments;i=(i+1)%MAX)
+printf("Patient %d:\n\tConsultation time:\t %.2f\n\n",i,patients_array[i]);
 }
 
 int main(int argc,char **argv)
@@ -100,7 +101,7 @@ switch(choice)
 	break;
 
 	case 3:
-	show_queue(num_patients);
+	show_queue(num_patients,send);
 	break;
 }
 }
