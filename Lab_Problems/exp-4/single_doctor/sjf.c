@@ -34,6 +34,7 @@ tail->next=new;
 tail=new;
 tail->next=NULL;
 }
+qsort(
 
 
 *num_patients=n;
