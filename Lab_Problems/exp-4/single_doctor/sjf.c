@@ -3,48 +3,35 @@
 #include<unistd.h>
 #define MAX 100
 
-typedef struct patient_consultation_time
-{
-float time;
-struct patient_consultation_time *next;
-}PCT;
-
-/*temp will be used to iterate through the linked list for comparing consultation time while inserting consultation time */
-
-PCT *new,*head=NULL,*tail,*temp; 
+float patients_array[MAX];
 
 void initial_appointments(int *num_patients)
 {
-int i,n=0,j;
+int i,n=0;
 puts("Enter the number of patients:");
 scanf("%d",&n);
 
 puts("Enter estimated consultation time for each patient: ");
-new=(PCT*)malloc(sizeof(PCT));
-scanf("%d",&PCT->time);
-head=new;
-tail=new;
-tail->next=NULL;
-
-for(i=0;i<n-1;i++)
-{
-new=(PCT*)malloc(sizeof(PCT));
-scanf("%d",&PCT->time);
-tail->next=new;
-tail=new;
-tail->next=NULL;
-}
-qsort(
-
+for(i=0;i<n;i=(i+1)%MAX)
+scanf("%f",&patients_array[i]);
 
 *num_patients=n;
 }
 
-void send_in(int *num_patients)
+/* comparator for qsort() */
+int comparator(const void *x,const void *y)
+{
+int *xx=(int*)x;
+int *yy=(int*)y;
+
+return(*xx-*yy);
+}
+
+int send_in(int *num_patients)
 {
 static int send=0;
 
-if(send>*num_patients)
+if(send==(((*num_patients)+1)%MAX))
 {
 puts("No more patients!");
 return;
@@ -52,28 +39,46 @@ return;
 
 printf("Patient number %d has been sent for consultation.\n",send);
 sleep(patients_array[send]);
-printf("Patient number %d has finished.\n\n",send++);
+printf("Patient number %d has finished.\n\n",send=(send+1)%MAX);
 
+return send;// return the patient number which will be sent
 }
 
-void new_appointment(int *num_patients)
+void new_appointment(int *num_patients,int send)
 {
-puts("Enter the estimated consultation time:");
-scanf("%f",&patients_array[++(*num_patients)]);
+int consult_time=0,i,j;
+puts("Enter the consultation time: ");
+scanf("%d",&consult_ime);
+
+for(i=send;i<=*num_patients;i=(i+1)%MAX);
+{
+if(patients_array[i]>consult_time)
+continue;// compare with the 
+
+else
+{
+j=*num_patients+1;
+for(;j>i;j=(j-1)%MAX)//right shift the contents of array
+patients_array[j]=patients_array[j-1];
+
+patients_array[i]=consult_time;
+*num_patients=(*num_patients+1)%MAX;
+
 }
 
 void show_queue(int num_appointments)
 {
 int i;
-for(i=0;i<=num_appointments;i++)
+for(i=0;i<=num_appointments;i=(i+1)%MAX)
 printf("Patient %d:\nConsultation time: %f\n\n",i,patients_array[i]);
 }
 
 int main(int argc,char **argv)
 {
-int num_patients=0,choice=0;
+int num_patients=0,choice=0,send=0; // num_patients holds the last patient number in the queue
 
 initial_appointments(&num_patients);
+qsort((void*)patients_array,sizeof(patients_array)/sizeof(float),sizeof(float),comparator);
 
 for(;num_patients+1;) //until num_patients>=0
 {
@@ -86,11 +91,11 @@ puts("");
 switch(choice)
 {
 	case 1:
-	send_in(&num_patients);
+	send=send_in(&num_patients);
 	break;
 
 	case 2:
-	new_appointment(&num_patients);
+	new_appointment(&num_patients,send);
 	break;
 
 	case 3:
