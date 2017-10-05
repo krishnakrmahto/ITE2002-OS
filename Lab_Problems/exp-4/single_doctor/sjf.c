@@ -21,10 +21,14 @@ scanf("%f",&patients_array[i]);
 /* comparator for qsort() */
 int comparator(const void *x,const void *y)
 {
-int *xx=(int*)x;
-int *yy=(int*)y;
+float *xx=(float*)x;
+float *yy=(float*)y;
+if(*xx>*yy)
+return 1;
+if(*xx<*yy)
+return -1;
 
-return(*xx-*yy);
+return 0;
 }
 
 int send_in(int *num_patients)
@@ -58,12 +62,14 @@ continue;// compare with the next element in the array
 
 else
 {
+
 j=*num_patients+1;
 for(;j>i;j=(j-1)%MAX)//right shift the contents of array
 patients_array[j]=patients_array[j-1];
 
 patients_array[i]=consult_time;
 *num_patients=(*num_patients+1)%MAX;
+
 }
 }
 }
@@ -71,7 +77,7 @@ patients_array[i]=consult_time;
 void show_queue(int num_appointments,int send)
 {
 int i;
-for(i=send;i<=num_appointments;i=(i+1)%MAX)
+for(i=send;i<num_appointments;i=(i+1)%MAX)
 printf("Patient %d:\n\tConsultation time:\t %.2f\n\n",i,patients_array[i]);
 }
 
@@ -80,8 +86,8 @@ int main(int argc,char **argv)
 int num_patients=0,choice=0,send=0; // num_patients holds the last patient number in the queue
 
 initial_appointments(&num_patients);
+show_queue(num_patients,send);
 qsort((void*)patients_array,sizeof(patients_array)/sizeof(float),sizeof(float),comparator);
-
 for(;num_patients+1;) //until num_patients>=0
 {
 puts("1. Send in");
