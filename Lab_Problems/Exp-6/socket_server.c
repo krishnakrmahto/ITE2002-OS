@@ -16,12 +16,7 @@ read(client_fd,buffer,20);
 printf("%s \n",buffer);
 
 if(strcpy(buffer,"exit")==0)
-{
-free(buffer);
 return 1;
-}
-
-free(buffer);
 
 return 0;
 }
@@ -49,7 +44,7 @@ strcpy(name.sun_path,socket_name);
 
 /* bind the server socket fd with the server socket address */
 
-bind(server_fd,&name,SUN_LEN(&name));
+bind(server_fd,(struct sockaddr*)&name,SUN_LEN(&name));
 
 /* server should now listen for connections from clients */
 
@@ -62,7 +57,7 @@ struct sockaddr_un client_name;
 socklen_t client_name_len;
 
 sem_wait(&num_of_connections);
-client_fd = accept(server_fd,&client_name,&client_name_len);
+client_fd = accept(server_fd,(struct sockaddr*)&client_name,&client_name_len);
 
 /*handle the connection*/
 
