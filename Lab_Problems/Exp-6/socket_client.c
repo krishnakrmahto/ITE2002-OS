@@ -23,7 +23,7 @@ client_fd = socket(PF_LOCAL,SOCK_STREAM,0);
 name.sun_family=AF_LOCAL;
 strcpy(name.sun_path,socket_name);
 
-connect(client_fd,&name,SUN_LEN(&name)); //check symmetry with the accept() sys call in server code
+connect(client_fd,(struct sockaddr*)&name,SUN_LEN(&name)); //check symmetry with the accept() sys call in server code
 char *buffer;
 
 if(count!=NUM_OF_CONNECTIONS)
@@ -33,13 +33,12 @@ write(client_fd,buffer,strlen(buffer));
 }
 else
 {
-sprintf(buffer,"exit",count++)
+sprintf(buffer,"exit");
+count++;
 write(client_fd,buffer,strlen(buffer));
 }
-
-}while(count<=NUM_OF_CONNECTIONS);
-
 close(client_fd);
+}while(count<=NUM_OF_CONNECTIONS);
 
 return 0;
 
