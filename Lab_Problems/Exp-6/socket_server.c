@@ -14,8 +14,8 @@ char buffer[20];
 sleep(2);
 read(client_fd,buffer,20);
 printf("%s \n",buffer);
-
-if(strcpy(buffer,"exit")==0)
+sem_post(&num_of_connections);
+if(strcmp(buffer,"exit")==0)
 return 1;
 
 return 0;

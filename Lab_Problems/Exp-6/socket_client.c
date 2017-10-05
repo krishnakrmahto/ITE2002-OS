@@ -24,18 +24,18 @@ name.sun_family=AF_LOCAL;
 strcpy(name.sun_path,socket_name);
 
 connect(client_fd,(struct sockaddr*)&name,SUN_LEN(&name)); //check symmetry with the accept() sys call in server code
-char *buffer;
+char buffer[20];
 
 if(count!=NUM_OF_CONNECTIONS)
 {
 sprintf(buffer,"Client %d",count++);
-write(client_fd,buffer,strlen(buffer));
+write(client_fd,buffer,sizeof(buffer));
 }
 else
 {
 sprintf(buffer,"exit");
 count++;
-write(client_fd,buffer,strlen(buffer));
+write(client_fd,buffer,sizeof(buffer));
 }
 close(client_fd);
 }while(count<=NUM_OF_CONNECTIONS);
