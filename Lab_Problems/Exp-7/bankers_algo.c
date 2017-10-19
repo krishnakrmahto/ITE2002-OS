@@ -16,6 +16,36 @@ int need[MAX][MAX]; //n*m matrix remaining resource need for each process
 int n,m;
 int request[MAX];
 
+void present_snapshot()
+{
+	int i,j;
+	
+	puts("\t\tAllocation Matrix\n");
+	puts("\tA\tB\tC");
+	for(i=0;i<n;i++)
+	{
+		printf("P%d\t",i);
+		for(j=0;j<m;j++)
+			printf("%d\t",allocation[i][j]);
+	}
+
+	puts("\t\tMax Matrix\n");
+	puts("\tA\tB\tC");
+	for(i=0;i<n;i++)
+	{
+		printf("P%d\t",i);
+		for(j=0;j<m;j++)
+			printf("%d\t",max[i][j]);
+	}
+
+	puts("\t\tAvailable Matrix\n");
+	puts("\tA\tB\tC");
+	for(j=0;j<m;j++)
+		printf("%d\t",available[j]);
+	
+
+}
+
 int compare(int need[],int work[])
 {
 	int i;
@@ -114,6 +144,8 @@ int main(int argc,char *argv[])
 		for(j=0;j<m;j++)
 			need[i][j]=max[i][j]-allocation[i][j];
 	puts("");
+
+	present_snapshot();
 
 	safe = safety_algorithm();
 
