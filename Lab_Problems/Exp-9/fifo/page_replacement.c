@@ -13,7 +13,7 @@ void print_frames(int frames[],int fr)
 
 void fifo(int pages[],int n, int fr)
 {
-	int frames[MAX];
+	int frames[MAX] = {0};
 	int i,j,present=0,fr_index=0;
 
 	for(i=0;i<n;i++)
@@ -41,7 +41,44 @@ void fifo(int pages[],int n, int fr)
 
 void lru(int pages[],int n,int fr)
 {
-	printf("haha");
+	int frames[MAX] = {0}, min=MAX, present=0, i, j, k, k_min = 0, fr_index=0; //min = MAX instd of MAX choose any big number for line 54 to satsfy for the first time
+
+	for(i=0;i<n;i++)
+	{
+
+		for(j=0;j<fr_index;j++)
+		{
+			if(pages[i]==frames[j])
+			{
+				present = 1;
+				puts("Page hit");
+				break;
+			}
+		}
+		
+		if(present == 0)	
+		{
+				for(k=fr_index;k>=0;k--)
+				{
+					for(j=i;j>=0;j--)
+					{
+						if(frames[k] == pages[j])	
+						{
+							if(j<min)
+							{
+								min = j;
+								k_min = k;
+							}
+						}
+					}
+				}
+				frames[k_min] = pages[i];
+				print_frames(frames,fr);
+	
+		}
+		else
+			print_frames(frames,fr);
+	}
 }
 
 void opt(int pages[],int n, int fr)
