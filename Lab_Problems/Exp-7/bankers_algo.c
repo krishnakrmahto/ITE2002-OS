@@ -20,7 +20,7 @@ void present_snapshot()
 {
 	int i,j;
 	
-	puts("\t\tAllocation Matrix\n");
+	puts("\tAllocation Matrix\n");
 	puts("\tA\tB\tC");
 	for(i=0;i<n;i++)
 	{
