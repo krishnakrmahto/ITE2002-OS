@@ -13,7 +13,7 @@ int available[MAX]; //holds available number of instances for each resource i
 int max[MAX][MAX]; //n*m matrix holds max demand for each process
 int allocation[MAX][MAX]; //n*m matrix holds number of resources of each type allocated to each process
 int need[MAX][MAX]; //n*m matrix remaining resource need for each process
-int n,m;
+int n=0,m=0;
 int request[MAX];
 
 void present_snapshot()
@@ -24,67 +24,75 @@ void present_snapshot()
 	puts("\tA\tB\tC");
 	for(i=0;i<n;i++)
 	{
-		printf("P%d\t",i);
+		printf("P%d",i);
 		for(j=0;j<m;j++)
-			printf("%d\t",allocation[i][j]);
+			printf("\t%d",allocation[i][j]);
+		puts("");
 	}
+	puts("");
 
-	puts("\t\tMax Matrix\n");
+	puts("\tMax Matrix\n");
 	puts("\tA\tB\tC");
 	for(i=0;i<n;i++)
 	{
-		printf("P%d\t",i);
+		printf("P%d",i);
 		for(j=0;j<m;j++)
-			printf("%d\t",max[i][j]);
+			printf("\t%d",max[i][j]);
+		puts("");
 	}
+	puts("");
 
-	puts("\t\tAvailable Matrix\n");
+	puts("\tAvailable Matrix\n");
 	puts("\tA\tB\tC");
 	for(j=0;j<m;j++)
-		printf("%d\t",available[j]);
+		printf("\t%d",available[j]);
+	puts("");
 	
 
 }
 
 int compare(int need[],int work[])
 {
-	int i;
-	for(i=0;i<n;i++)
+	int j;
+	for(j=0;j<m;j++)
 	{
-		if(need[i]<=work[i])
+		if(need[j]<=work[j])
 			continue;
 		else
 			return 0;
 	}
-	if(i==n-1)
+	if(j==m-1)
 		return 1;
 }
 
 int safety_algorithm()
 {
-	int finish[n], *work, i, j, flag = false, safe = true;
+	int finish[n], *work, i, j, flag = false, safe = true, count;
+
+	work = (int*)malloc(sizeof(int)*MAX);
 
 	work = available;
 	for(i=0;i<n;i++)
 		finish[i]=false;
-	for(i=0;i<n;i++)
+	for(count=0;count<n;)
 	{
-		if((finish[i]==false) && compare(need[i],work))
+		for(i=0;i<n;i++)
 		{
-			flag = true;
-			for(j=0;j<m;j++)
-				work[j] += allocation[i][j];
-			finish[i] = true;
-			continue;
-		}
+			if((finish[i]==false) && compare(need[i],work))
+			{
+				count++;
+				flag = true;
+				for(j=0;j<m;j++)
+					work[j] += allocation[i][j];
+				finish[i] = true;
+				continue;
+			}
 		
-		else if(i<n-1)
-			continue;
+			else if(i<n-1)
+				continue;
+		}
 	}
 
-	if(flag == false)
-		for(i=0;i<n;i++)
-			finish[i]=true;
 
 	for(i=0;i<n;i++)
 		if(finish[i] == false)
@@ -102,7 +110,7 @@ int safety_algorithm()
 int main(int argc,char *argv[])
 {
 
-	int i,j,n,m,requesting_process,safe; //i for iterating through n processes and j for iterating through m processes
+	int i,j,requesting_process,safe; //i for iterating through n processes and j for iterating through m processes
 
 	puts("Enter the number of processes: ");
 	scanf("%d",&n);
@@ -144,6 +152,19 @@ int main(int argc,char *argv[])
 		for(j=0;j<m;j++)
 			need[i][j]=max[i][j]-allocation[i][j];
 	puts("");
+
+	/* NEED MATRIX PRINT*/
+	puts("\tNeed Matrix");
+	puts("\tA\tB\tC");
+	for(i=0;i<n;i++)
+	{
+		printf("P%d",i);
+		for(j=0;j<m;j++)
+			printf("\t%d",need[i][j]);
+		puts("");
+	}
+	puts("");
+
 
 	present_snapshot();
 
