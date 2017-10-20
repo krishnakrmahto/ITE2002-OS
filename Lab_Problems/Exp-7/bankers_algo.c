@@ -15,13 +15,18 @@ int allocation[MAX][MAX]; //n*m matrix holds number of resources of each type al
 int need[MAX][MAX]; //n*m matrix remaining resource need for each process
 int n=0,m=0;
 int request[MAX];
+int safe_sequence[MAX];
 
 void present_snapshot()
 {
 	int i,j;
+	char ch;
 	
 	puts("\tAllocation Matrix\n");
-	puts("\tA\tB\tC");
+	for(ch='A',i=0;i<m;i++,ch++)
+		printf("\t%c",ch);
+	puts("\n");
+		
 	for(i=0;i<n;i++)
 	{
 		printf("P%d",i);
@@ -32,7 +37,10 @@ void present_snapshot()
 	puts("");
 
 	puts("\tMax Matrix\n");
-	puts("\tA\tB\tC");
+	for(ch='A',i=0;i<m;i++,ch++)
+		printf("\t%c",ch);
+	puts("");
+
 	for(i=0;i<n;i++)
 	{
 		printf("P%d",i);
@@ -43,7 +51,10 @@ void present_snapshot()
 	puts("");
 
 	puts("\tAvailable Matrix\n");
-	puts("\tA\tB\tC");
+	for(ch='A',i=0;i<m;i++,ch++)
+		printf("\t%c",ch);
+	puts("");
+
 	for(j=0;j<m;j++)
 		printf("\t%d",available[j]);
 	puts("");
@@ -67,14 +78,14 @@ int compare(int need[],int work[])
 
 int safety_algorithm()
 {
-	int finish[n], *work, i, j, flag = false, safe = true, count;
+	int finish[n],ss=0, *work, i, j, flag = false, safe = true, count,cycle;
 
 	work = (int*)malloc(sizeof(int)*MAX);
 
 	work = available;
 	for(i=0;i<n;i++)
 		finish[i]=false;
-	for(count=0;count<n;)
+	for(count=0,cycle = 0;count<n && cycle < 2*n;cycle++) //if the loop runs twice through the processes and still finish[i] = false for some process(es), then no safe sequeunce found
 	{
 		for(i=0;i<n;i++)
 		{
@@ -85,6 +96,7 @@ int safety_algorithm()
 				for(j=0;j<m;j++)
 					work[j] += allocation[i][j];
 				finish[i] = true;
+				safe_sequence[ss++] = i;
 				continue;
 			}
 		
@@ -100,6 +112,18 @@ int safety_algorithm()
 			safe = false;
 			break;
 		}
+		
+	if(ss == n-1)
+	{
+		puts("Safe sequence: ");
+		printf("< ");
+		for(i=0;i<n;i++)
+		{
+			printf("%d, ",safe_sequence[i]);
+		}
+		printf(">");
+		puts("");
+	}
 
 	return safe;
 
@@ -111,6 +135,7 @@ int main(int argc,char *argv[])
 {
 
 	int i,j,requesting_process,safe; //i for iterating through n processes and j for iterating through m processes
+	char ch;
 
 	puts("Enter the number of processes: ");
 	scanf("%d",&n);
@@ -155,7 +180,10 @@ int main(int argc,char *argv[])
 
 	/* NEED MATRIX PRINT*/
 	puts("\tNeed Matrix");
-	puts("\tA\tB\tC");
+	for(ch='A',i=0;i<m;i++,ch++)
+		printf("\t%c",ch);
+
+	puts("");
 	for(i=0;i<n;i++)
 	{
 		printf("P%d",i);
