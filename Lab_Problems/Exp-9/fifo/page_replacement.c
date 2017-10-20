@@ -41,14 +41,26 @@ void fifo(int pages[],int n, int fr)
 
 void lru(int pages[],int n,int fr)
 {
-	int frames[MAX] = {0}, min=MAX, present=0, i, j, k, k_min = 0, fr_index=0; //min = MAX instd of MAX choose any big number for line 54 to satsfy for the first time
+	int frames[MAX] = {0}, min=MAX, present=0, i, j, k, k_min = 0, new_start; //min = MAX instd of MAX choose any big number for line 54 to satsfy for the first time
 
-	for(i=0;i<n;i++)
+	for(k=0,i=0;k<fr;k++,i++)
 	{
+		frames[k] = pages[i];
+		puts("Page miss");
+		print_frames(frames,fr);
+	}
+	
+	//remain_page = n-fr;
 
-		for(j=0;j<fr_index;j++)
+	new_start = k;
+
+	for(i=new_start;i<n;i++)
+	{
+		min = MAX; //for each page[i] reset min (holds the page index of lr element)
+		present = 0;
+		for(k=0;k<fr;k++)
 		{
-			if(pages[i]==frames[j])
+			if(pages[i]==frames[k])
 			{
 				present = 1;
 				puts("Page hit");
@@ -58,17 +70,19 @@ void lru(int pages[],int n,int fr)
 		
 		if(present == 0)	
 		{
-				for(k=fr_index;k>=0;k--)
+			puts("Page miss");
+				for(k=0;k<fr;k++)
 				{
-					for(j=i;j>=0;j--)
+					for(j=i-1;j>=0;j--)
 					{
 						if(frames[k] == pages[j])	
 						{
-							if(j<min)
+							if(j<=min)
 							{
 								min = j;
 								k_min = k;
 							}
+							break;
 						}
 					}
 				}
