@@ -1,9 +1,9 @@
-# -*- Makefile -*-
+# -*- MakeFile -*-
 
-all: file_allocation
+all: file_allocation_algo
 
 file_allocation: file_allocation.c
-	gcc file_allocation.c -g -o file_allocation
+	gcc file_allocation_algo.c -g -o file_allocation_algo
 
 clean:
-	rm file_allocation
+	rm file_allocation_algo
