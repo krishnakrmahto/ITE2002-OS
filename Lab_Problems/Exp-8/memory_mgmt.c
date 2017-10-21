@@ -87,6 +87,45 @@ void best_fit(int blocks[],const int blocks_num,const int files_num)
 	}
 }
 
+void worst_fit(int blocks[],const int blocks_num,const int files_num)
+{
+	int i,j,allocated,unallocated[MAX_FILES],block_found,unalloc_count=0;
+	int worst_index,block_file_diff;
+
+	for(i=0;i<files_num;i++)
+	{
+		block_file_diff = -1; //arbitrarily small number assigned so that the first comparision in following loop becomes true
+		allocated = 0;
+		block_found = 0;
+		for(j=0;j<blocks_num;j++)
+		{
+			if(files[i] <= blocks[j])
+			{
+				block_found = 1;
+				if(block_file_diff < (blocks[j]-files[i]))
+				{
+					block_file_diff = blocks[j] - files[i];
+					worst_index = j;
+					continue;
+				}
+			}
+		}
+		if(block_found == 0)
+		{
+			printf("\nFile %d cannot be allocated.\n",i);
+			continue;
+		}
+		else
+		{
+			blocks[worst_index] -= files[i];
+			allocated = 1;
+			printf("\nFile %d allocated in block %d\n",i,worst_index);
+		}
+
+		memory_status(blocks,blocks_num);
+	}
+}
+
 int main(int argc,char *argv)
 {
 	int blocks[MAX_BLOCKS];
@@ -144,7 +183,7 @@ int main(int argc,char *argv)
 		break;
 
 		case 3:
-		//worst_fit(blocks,blocks_num,files_num);
+		worst_fit(blocks,blocks_num,files_num);
 		break;
 	}
 
