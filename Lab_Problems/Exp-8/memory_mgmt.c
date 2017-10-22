@@ -21,7 +21,7 @@ void memory_status(const int blocks[],int blocks_num)
 
 void first_fit(int blocks[],const int blocks_num,const int files_num)
 {
-	int i,j,allocated,unallocated[MAX_FILES],unalloc_count=0;
+	int i,j,allocated,unallocated[MAX_FILES],unalloc_count=0,ext_fragmentation=0;
 
 	for(i=0;i<files_num;i++)
 	{
@@ -42,15 +42,19 @@ void first_fit(int blocks[],const int blocks_num,const int files_num)
 		{
 			printf("\nFile %d Cannot be allocated\n",i);
 			unallocated[unalloc_count++] = files[i];
-		}
-		
-		memory_status(blocks,blocks_num);
+		}	
 	}
+			memory_status(blocks,blocks_num);
+
+	puts("External fragmentation");
+	for(i=0;i<blocks_num;i++)
+		ext_fragmentation += blocks[i];
+	printf("%d\n",ext_fragmentation);
 }
 
 void best_fit(int blocks[],const int blocks_num,const int files_num)
 {
-	int i,j,allocated,unallocated[MAX_FILES],block_found,unalloc_count=0;
+	int i,j,allocated,unallocated[MAX_FILES],block_found,unalloc_count=0,ext_fragmentation=0;
 	int best_index,block_file_diff;
 
 	for(i=0;i<files_num;i++)
@@ -85,11 +89,16 @@ void best_fit(int blocks[],const int blocks_num,const int files_num)
 
 		memory_status(blocks,blocks_num);
 	}
+	
+	puts("External fragmentation");
+	for(i=0;i<blocks_num;i++)
+		ext_fragmentation += blocks[i];
+	printf("%d\n",ext_fragmentation);
 }
 
 void worst_fit(int blocks[],const int blocks_num,const int files_num)
 {
-	int i,j,allocated,unallocated[MAX_FILES],block_found,unalloc_count=0;
+	int i,j,allocated,unallocated[MAX_FILES],block_found,unalloc_count=0,ext_fragmentation=0;
 	int worst_index,block_file_diff;
 
 	for(i=0;i<files_num;i++)
@@ -124,6 +133,11 @@ void worst_fit(int blocks[],const int blocks_num,const int files_num)
 
 		memory_status(blocks,blocks_num);
 	}
+
+	puts("External fragmentation");
+	for(i=0;i<blocks_num;i++)
+		ext_fragmentation += blocks[i];
+	printf("%d\n",ext_fragmentation);
 }
 
 int main(int argc,char *argv)
